@@ -1628,21 +1628,22 @@ p {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 96px;
-  margin-left: -48px;
-  transform-origin: 48px 0;
+  width: 86px;
+  margin-left: -43px;
+  transform-origin: 43px 0;
   color: #3a2b31;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 950;
   text-align: center;
+  line-height: 1.2;
 }
 
-.wheel-segment-0 { transform: rotate(30deg) translateY(-112px) rotate(-30deg); }
-.wheel-segment-1 { transform: rotate(90deg) translateY(-112px) rotate(-90deg); }
-.wheel-segment-2 { transform: rotate(150deg) translateY(-112px) rotate(-150deg); }
-.wheel-segment-3 { transform: rotate(210deg) translateY(-112px) rotate(-210deg); }
-.wheel-segment-4 { transform: rotate(270deg) translateY(-112px) rotate(-270deg); }
-.wheel-segment-5 { transform: rotate(330deg) translateY(-112px) rotate(-330deg); }
+.wheel-segment-0 { transform: rotate(30deg) translateY(-98px) rotate(-30deg); }
+.wheel-segment-1 { transform: rotate(90deg) translateY(-98px) rotate(-90deg); }
+.wheel-segment-2 { transform: rotate(150deg) translateY(-98px) rotate(-150deg); }
+.wheel-segment-3 { transform: rotate(210deg) translateY(-98px) rotate(-210deg); }
+.wheel-segment-4 { transform: rotate(270deg) translateY(-98px) rotate(-270deg); }
+.wheel-segment-5 { transform: rotate(330deg) translateY(-98px) rotate(-330deg); }
 
 .wheel-center {
   position: absolute;
