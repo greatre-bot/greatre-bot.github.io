@@ -457,6 +457,7 @@ p {
 .tap-peach {
   left: 0;
   top: 110px;
+  z-index: 10;
   width: 86px;
   height: 86px;
 }
@@ -464,6 +465,7 @@ p {
 .tap-citrus {
   right: -4px;
   top: 122px;
+  z-index: 10;
   width: 78px;
   height: 78px;
 }
@@ -1635,12 +1637,12 @@ p {
   text-align: center;
 }
 
-.wheel-segment-0 { transform: rotate(30deg) translateY(-112px); }
-.wheel-segment-1 { transform: rotate(90deg) translateY(-112px); }
-.wheel-segment-2 { transform: rotate(150deg) translateY(-112px); }
-.wheel-segment-3 { transform: rotate(210deg) translateY(-112px); }
-.wheel-segment-4 { transform: rotate(270deg) translateY(-112px); }
-.wheel-segment-5 { transform: rotate(330deg) translateY(-112px); }
+.wheel-segment-0 { transform: rotate(30deg) translateY(-112px) rotate(-30deg); }
+.wheel-segment-1 { transform: rotate(90deg) translateY(-112px) rotate(-90deg); }
+.wheel-segment-2 { transform: rotate(150deg) translateY(-112px) rotate(-150deg); }
+.wheel-segment-3 { transform: rotate(210deg) translateY(-112px) rotate(-210deg); }
+.wheel-segment-4 { transform: rotate(270deg) translateY(-112px) rotate(-270deg); }
+.wheel-segment-5 { transform: rotate(330deg) translateY(-112px) rotate(-330deg); }
 
 .wheel-center {
   position: absolute;
