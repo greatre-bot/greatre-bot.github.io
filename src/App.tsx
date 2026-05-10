@@ -12,6 +12,7 @@ import { assetPath } from './utils/assets';
 import { getDominantType, getEnergyIndex } from './utils/scoring';
 import {
   playBubbleSound,
+  playClinkSound,
   playSplashSound,
   setSoundEnabled,
   startSoundscape,
@@ -53,6 +54,7 @@ export default function App() {
 
     setSoundPrimed(true);
     startSoundscape();
+    playClinkSound();
   };
 
   const toggleSound = () => {
@@ -62,10 +64,12 @@ export default function App() {
   };
 
   useEffect(() => {
+    const clinkTimer = window.setTimeout(() => playClinkSound(), 930);
     const exitTimer = window.setTimeout(() => setIntroExiting(true), 2300);
     const hideTimer = window.setTimeout(() => setShowIntro(false), 2850);
 
     return () => {
+      window.clearTimeout(clinkTimer);
       window.clearTimeout(exitTimer);
       window.clearTimeout(hideTimer);
     };

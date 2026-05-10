@@ -39,7 +39,7 @@ function getContext() {
 
     audioContext = new AudioCtor();
     masterGain = audioContext.createGain();
-    masterGain.gain.value = 0.42;
+    masterGain.gain.value = 0.95;
     masterGain.connect(audioContext.destination);
   }
 
@@ -50,7 +50,7 @@ function getContext() {
 function outputNode(ctx: AudioContext) {
   if (!masterGain) {
     masterGain = ctx.createGain();
-    masterGain.gain.value = 0.42;
+    masterGain.gain.value = 0.95;
     masterGain.connect(ctx.destination);
   }
 
@@ -155,37 +155,39 @@ export function setSoundEnabled(nextEnabled: boolean) {
 }
 
 export function playBubbleSound() {
-  tone(740, 0.16, 0.045, 'sine');
-  window.setTimeout(() => tone(980, 0.14, 0.026, 'sine'), 52);
+  tone(740, 0.16, 0.11, 'sine');
+  window.setTimeout(() => tone(980, 0.14, 0.07, 'sine'), 52);
 }
 
 export function playSplashSound() {
-  noiseBurst(0.34, 0.052);
-  tone(520, 0.2, 0.03, 'triangle', -8);
+  noiseBurst(0.38, 0.16);
+  tone(520, 0.2, 0.08, 'triangle', -8);
+  window.setTimeout(() => tone(1180, 0.12, 0.06, 'sine'), 72);
 }
 
 export function playSelectSound() {
-  tone(620, 0.12, 0.034, 'sine');
-  window.setTimeout(() => tone(820, 0.12, 0.024, 'sine'), 46);
+  tone(620, 0.12, 0.09, 'sine');
+  window.setTimeout(() => tone(820, 0.12, 0.06, 'sine'), 46);
 }
 
 export function playClinkSound() {
-  tone(1320, 0.18, 0.046, 'triangle');
-  window.setTimeout(() => tone(1680, 0.16, 0.028, 'sine'), 64);
+  tone(1320, 0.18, 0.14, 'triangle');
+  window.setTimeout(() => tone(1680, 0.16, 0.09, 'sine'), 64);
+  window.setTimeout(() => noiseBurst(0.3, 0.12), 92);
 }
 
 export function playSpinSound() {
-  noiseBurst(0.18, 0.03);
-  tone(240, 0.5, 0.034, 'sawtooth', -14);
+  noiseBurst(0.18, 0.08);
+  tone(240, 0.5, 0.07, 'sawtooth', -14);
 }
 
 export function playPrizeSound(isWin: boolean) {
   if (isWin) {
-    tone(660, 0.16, 0.04, 'sine');
-    window.setTimeout(() => tone(880, 0.18, 0.04, 'sine'), 88);
-    window.setTimeout(() => tone(1320, 0.22, 0.032, 'triangle'), 176);
+    tone(660, 0.16, 0.1, 'sine');
+    window.setTimeout(() => tone(880, 0.18, 0.1, 'sine'), 88);
+    window.setTimeout(() => tone(1320, 0.22, 0.08, 'triangle'), 176);
     return;
   }
 
-  tone(260, 0.22, 0.026, 'triangle');
+  tone(260, 0.22, 0.07, 'triangle');
 }

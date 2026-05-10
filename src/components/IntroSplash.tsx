@@ -26,7 +26,21 @@ export function IntroSplash({ exiting }: IntroSplashProps) {
           alt=""
         />
         <div className="intro-burst">
-          {Array.from({ length: 20 }).map((_, index) => (
+          <i className="intro-shockwave" />
+          <i className="intro-liquid-arc intro-liquid-arc-a" />
+          <i className="intro-liquid-arc intro-liquid-arc-b" />
+          <i className="intro-liquid-arc intro-liquid-arc-c" />
+          <img
+            className="intro-splash-img intro-splash-img-a"
+            src={assetPath('assets/official/water-splash-wide.png')}
+            alt=""
+          />
+          <img
+            className="intro-splash-img intro-splash-img-b"
+            src={assetPath('assets/official/water-splash-tall.png')}
+            alt=""
+          />
+          {Array.from({ length: 32 }).map((_, index) => (
             <span key={index} />
           ))}
         </div>
