@@ -1,21 +1,30 @@
 import { useState } from 'react';
 import { assetPath } from '../utils/assets';
+import { playBubbleSound, playSplashSound } from '../utils/sound';
 
 interface LandingProps {
   onStart: () => void;
 }
 
-const sparkTips = {
-  peach: '白桃清甜，适合今晚回血。',
-  citrus: '卡曼橘清爽，适合专注续航。',
-  bottle: '轻轻碰一下，气泡就醒了。',
-  splash: '把水花留给夏天，把负担留在身后。',
-};
-
-type SparkTip = keyof typeof sparkTips;
+type ActiveElement = 'bottle' | 'peach' | 'citrus' | 'splash';
 
 export function Landing({ onStart }: LandingProps) {
-  const [activeTip, setActiveTip] = useState<SparkTip>('bottle');
+  const [activeElement, setActiveElement] = useState<ActiveElement>('bottle');
+
+  const activateElement = (element: ActiveElement) => {
+    setActiveElement(element);
+    if (element === 'splash' || element === 'bottle') {
+      playSplashSound();
+      return;
+    }
+
+    playBubbleSound();
+  };
+
+  const handleStart = () => {
+    playSplashSound();
+    onStart();
+  };
 
   return (
     <section className="landing-screen">
@@ -30,11 +39,17 @@ export function Landing({ onStart }: LandingProps) {
         <span className="zero-sugar-pill">0糖 0脂 0卡</span>
       </div>
 
-      <div className="hero-visual hero-visual-campaign">
+      <div className={`hero-visual hero-visual-campaign active-${activeElement}`}>
+        <div className="liquid-orbit" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+        </div>
+
         <button
           className="tap-asset tap-peach"
           type="button"
-          onClick={() => setActiveTip('peach')}
+          onClick={() => activateElement('peach')}
           aria-label="白桃气泡"
         >
           <img src={assetPath('assets/official/peach.png')} alt="" />
@@ -42,7 +57,7 @@ export function Landing({ onStart }: LandingProps) {
         <button
           className="tap-asset tap-citrus"
           type="button"
-          onClick={() => setActiveTip('citrus')}
+          onClick={() => activateElement('citrus')}
           aria-label="卡曼橘气泡"
         >
           <img src={assetPath('assets/official/lime.png')} alt="" />
@@ -50,7 +65,7 @@ export function Landing({ onStart }: LandingProps) {
         <button
           className="tap-asset tap-splash"
           type="button"
-          onClick={() => setActiveTip('splash')}
+          onClick={() => activateElement('splash')}
           aria-label="清爽水花"
         >
           <img src={assetPath('assets/official/water-splash-wide.png')} alt="" />
@@ -58,29 +73,39 @@ export function Landing({ onStart }: LandingProps) {
         <button
           className="tap-asset tap-bottle"
           type="button"
-          onClick={() => setActiveTip('bottle')}
+          onClick={() => activateElement('bottle')}
           aria-label="元气气泡水"
         >
           <img src={assetPath('assets/official/sparkling-duo.png')} alt="" />
         </button>
 
-        <div className="hero-copy-badge">
-          <span>tap</span>
-          <strong>{sparkTips[activeTip]}</strong>
+        <div className="spark-response" aria-hidden="true">
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
+          <span />
         </div>
 
         <div className="poster-words" aria-hidden="true">
-          <span>回血</span>
-          <span>续航</span>
+          <span>0糖</span>
           <span>轻盈</span>
+          <span>清爽</span>
           <span>冒泡</span>
         </div>
       </div>
 
       <div className="landing-copy">
-        <p className="eyebrow">进入元气补给站</p>
+        <p className="eyebrow">元气补给站</p>
         <h1>今天，你是什么元气状态？</h1>
-        <p>点一点瓶身和水果，唤醒气泡；再用 5 道题生成你的今日元气卡。</p>
+        <p>点击瓶身、水果与水花，唤醒气泡动效；再用 5 道题生成今日元气卡。</p>
       </div>
 
       <div className="campaign-note">
@@ -90,7 +115,7 @@ export function Landing({ onStart }: LandingProps) {
         <strong>轻负担快乐补给中</strong>
       </div>
 
-      <button className="primary-action" type="button" onClick={onStart}>
+      <button className="primary-action" type="button" onClick={handleStart}>
         开始测试
       </button>
     </section>
@@ -100,12 +125,9 @@ export function Landing({ onStart }: LandingProps) {
 function BubbleField() {
   return (
     <div className="bubble-field" aria-hidden="true">
-      <span />
-      <span />
-      <span />
-      <span />
-      <span />
-      <span />
+      {Array.from({ length: 10 }).map((_, index) => (
+        <span key={index} />
+      ))}
     </div>
   );
 }

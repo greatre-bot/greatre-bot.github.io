@@ -8,7 +8,14 @@ import { ProductShowcase } from './components/ProductShowcase';
 import { Quiz } from './components/Quiz';
 import { Result } from './components/Result';
 import { resultProfiles, type EnergyType } from './data/results';
+import { assetPath } from './utils/assets';
 import { getDominantType, getEnergyIndex } from './utils/scoring';
+import {
+  playBubbleSound,
+  playSplashSound,
+  setSoundEnabled,
+  startSoundscape,
+} from './utils/sound';
 
 type Step = 'landing' | 'quiz' | 'result' | 'card' | 'lottery' | 'products';
 
@@ -17,6 +24,8 @@ export default function App() {
   const [answers, setAnswers] = useState<EnergyType[]>([]);
   const [showIntro, setShowIntro] = useState(true);
   const [introExiting, setIntroExiting] = useState(false);
+  const [soundOn, setSoundOn] = useState(true);
+  const [soundPrimed, setSoundPrimed] = useState(false);
 
   const resultType = useMemo(() => getDominantType(answers), [answers]);
   const profile = resultProfiles[resultType];
@@ -26,13 +35,30 @@ export default function App() {
   );
 
   const startQuiz = () => {
+    playSplashSound();
     setAnswers([]);
     setStep('quiz');
   };
 
   const goHome = () => {
+    playBubbleSound();
     setAnswers([]);
     setStep('landing');
+  };
+
+  const primeSound = () => {
+    if (soundPrimed) {
+      return;
+    }
+
+    setSoundPrimed(true);
+    startSoundscape();
+  };
+
+  const toggleSound = () => {
+    const nextSoundOn = !soundOn;
+    setSoundOn(nextSoundOn);
+    setSoundEnabled(nextSoundOn);
   };
 
   useEffect(() => {
@@ -97,9 +123,34 @@ export default function App() {
   };
 
   return (
-    <main className="app-shell">
+    <main className="app-shell" onPointerDown={primeSound}>
       <section className="phone-zone" aria-label="元气森林互动H5手机界面">
         <PhoneFrame>
+          <div className={`water-fx water-fx-${step}`} aria-hidden="true">
+            <img
+              className="water-fx-splash water-fx-splash-a"
+              src={assetPath('assets/official/water-splash-wide.png')}
+              alt=""
+            />
+            <img
+              className="water-fx-splash water-fx-splash-b"
+              src={assetPath('assets/official/water-splash-tall.png')}
+              alt=""
+            />
+            {Array.from({ length: 14 }).map((_, index) => (
+              <span key={index} />
+            ))}
+          </div>
+          <button
+            className={`sound-toggle ${soundOn ? 'is-on' : ''}`}
+            type="button"
+            aria-label={soundOn ? '关闭背景音乐' : '打开背景音乐'}
+            onClick={toggleSound}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
           {showIntro ? <IntroSplash exiting={introExiting} /> : null}
           <div className={`screen screen-${step}`} key={step}>
             {renderStep()}

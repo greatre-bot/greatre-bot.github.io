@@ -80,6 +80,129 @@ button {
   overflow: hidden;
   border-radius: 32px;
   background: #fff7fa;
+  isolation: isolate;
+}
+
+.water-fx {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.water-fx-splash {
+  position: absolute;
+  object-fit: contain;
+  opacity: 0.16;
+  filter: saturate(0.9) contrast(1.08);
+  mix-blend-mode: multiply;
+}
+
+.water-fx-splash-a {
+  left: -82px;
+  top: 190px;
+  width: 245px;
+  transform: rotate(-17deg);
+  animation: water-drift-a 8s ease-in-out infinite;
+}
+
+.water-fx-splash-b {
+  right: -120px;
+  bottom: 58px;
+  width: 270px;
+  transform: rotate(18deg);
+  animation: water-drift-b 9s ease-in-out infinite;
+}
+
+.water-fx span {
+  position: absolute;
+  left: var(--x);
+  bottom: -32px;
+  width: var(--s);
+  height: var(--s);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.92) 0 18%, transparent 20%),
+    rgba(255, 124, 169, 0.18);
+  box-shadow:
+    0 12px 28px rgba(255, 124, 169, 0.13),
+    inset 0 0 14px rgba(255, 255, 255, 0.22);
+  animation: water-bubble var(--d) linear infinite;
+  animation-delay: var(--delay);
+}
+
+.water-fx span:nth-child(3) { --x: 9%; --s: 12px; --d: 8s; --delay: -1s; }
+.water-fx span:nth-child(4) { --x: 22%; --s: 19px; --d: 10s; --delay: -5s; }
+.water-fx span:nth-child(5) { --x: 35%; --s: 9px; --d: 7s; --delay: -2s; }
+.water-fx span:nth-child(6) { --x: 48%; --s: 24px; --d: 12s; --delay: -7s; }
+.water-fx span:nth-child(7) { --x: 60%; --s: 13px; --d: 8.5s; --delay: -4s; }
+.water-fx span:nth-child(8) { --x: 72%; --s: 17px; --d: 11s; --delay: -6s; }
+.water-fx span:nth-child(9) { --x: 84%; --s: 10px; --d: 7.5s; --delay: -3s; }
+.water-fx span:nth-child(10) { --x: 92%; --s: 28px; --d: 13s; --delay: -8s; }
+.water-fx span:nth-child(11) { --x: 16%; --s: 7px; --d: 6.5s; --delay: -5.5s; }
+.water-fx span:nth-child(12) { --x: 43%; --s: 15px; --d: 9.5s; --delay: -6.5s; }
+.water-fx span:nth-child(13) { --x: 68%; --s: 8px; --d: 7.2s; --delay: -1.5s; }
+.water-fx span:nth-child(14) { --x: 79%; --s: 22px; --d: 12.5s; --delay: -9s; }
+.water-fx span:nth-child(15) { --x: 28%; --s: 11px; --d: 8.8s; --delay: -7.5s; }
+.water-fx span:nth-child(16) { --x: 55%; --s: 10px; --d: 7.8s; --delay: -3.8s; }
+
+.water-fx-result .water-fx-splash-a,
+.water-fx-card .water-fx-splash-a,
+.water-fx-lottery .water-fx-splash-a {
+  opacity: 0.24;
+}
+
+.sound-toggle {
+  position: absolute;
+  top: 48px;
+  right: 16px;
+  z-index: 24;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(255, 124, 169, 0.24);
+  box-shadow: 0 14px 34px rgba(255, 124, 169, 0.18);
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.sound-toggle span {
+  width: 4px;
+  border-radius: 999px;
+  background: #c46b91;
+  transition:
+    height 180ms ease,
+    opacity 180ms ease,
+    background 180ms ease;
+}
+
+.sound-toggle span:nth-child(1) { height: 11px; }
+.sound-toggle span:nth-child(2) { height: 18px; }
+.sound-toggle span:nth-child(3) { height: 14px; }
+
+.sound-toggle.is-on span {
+  background: #ff6f9f;
+  animation: sound-wave 720ms ease-in-out infinite;
+}
+
+.sound-toggle.is-on span:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.sound-toggle.is-on span:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+.sound-toggle:not(.is-on) span {
+  height: 4px;
+  opacity: 0.55;
 }
 
 .intro-splash {
@@ -231,6 +354,7 @@ button {
 
 .screen {
   position: relative;
+  z-index: 2;
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
@@ -415,6 +539,44 @@ p {
   margin-top: 4px;
 }
 
+.hero-visual-campaign::before,
+.hero-visual-campaign::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+  border-radius: 999px;
+  opacity: 0.72;
+}
+
+.hero-visual-campaign::before {
+  left: 50%;
+  top: 54%;
+  z-index: 2;
+  width: 230px;
+  height: 118px;
+  border: 1px solid rgba(255, 255, 255, 0.82);
+  background:
+    radial-gradient(ellipse at 50% 52%, transparent 0 46%, rgba(255, 255, 255, 0.62) 48%, transparent 64%),
+    radial-gradient(ellipse at 50% 52%, rgba(255, 124, 169, 0.16), transparent 68%);
+  transform: translate(-50%, -50%) rotate(-8deg);
+  animation: liquid-ring 4.8s ease-in-out infinite;
+}
+
+.hero-visual-campaign::after {
+  left: 28px;
+  right: 26px;
+  bottom: 32px;
+  z-index: 3;
+  height: 46px;
+  background:
+    radial-gradient(circle at 12% 56%, rgba(255, 255, 255, 0.9) 0 4px, transparent 5px),
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.75) 0 6px, transparent 7px),
+    radial-gradient(circle at 66% 64%, rgba(255, 255, 255, 0.82) 0 5px, transparent 6px),
+    linear-gradient(90deg, transparent, rgba(255, 124, 169, 0.16), transparent);
+  filter: blur(0.2px);
+  animation: waterline 3.8s ease-in-out infinite;
+}
+
 .tap-asset {
   position: absolute;
   z-index: 4;
@@ -485,6 +647,84 @@ p {
   height: 56px;
   opacity: 0.55;
 }
+
+.liquid-orbit {
+  position: absolute;
+  inset: 22px 12px 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.liquid-orbit span {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 124, 169, 0.18);
+  opacity: 0.62;
+}
+
+.liquid-orbit span:nth-child(1) {
+  left: 22px;
+  top: 46px;
+  width: 160px;
+  height: 160px;
+}
+
+.liquid-orbit span:nth-child(2) {
+  right: 18px;
+  top: 78px;
+  width: 118px;
+  height: 118px;
+  border-color: rgba(123, 220, 139, 0.22);
+}
+
+.liquid-orbit span:nth-child(3) {
+  left: 42%;
+  bottom: 28px;
+  width: 92px;
+  height: 92px;
+  border-color: rgba(255, 155, 114, 0.2);
+}
+
+.spark-response {
+  position: absolute;
+  left: 50%;
+  top: 47%;
+  z-index: 12;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.spark-response span {
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 30%, #fff 0 18%, transparent 19%),
+    rgba(255, 124, 169, 0.42);
+  opacity: 0;
+}
+
+.active-bottle .spark-response span,
+.active-peach .spark-response span,
+.active-citrus .spark-response span,
+.active-splash .spark-response span {
+  animation: hero-spark 700ms ease-out both;
+}
+
+.spark-response span:nth-child(1) { --x: -84px; --y: -64px; }
+.spark-response span:nth-child(2) { --x: -36px; --y: -92px; animation-delay: 40ms; }
+.spark-response span:nth-child(3) { --x: 38px; --y: -78px; animation-delay: 70ms; }
+.spark-response span:nth-child(4) { --x: 84px; --y: -34px; animation-delay: 100ms; }
+.spark-response span:nth-child(5) { --x: -74px; --y: 24px; animation-delay: 130ms; }
+.spark-response span:nth-child(6) { --x: 66px; --y: 36px; animation-delay: 160ms; }
+.spark-response span:nth-child(7) { --x: -112px; --y: -8px; animation-delay: 80ms; }
+.spark-response span:nth-child(8) { --x: 112px; --y: 4px; animation-delay: 120ms; }
+.spark-response span:nth-child(9) { --x: -12px; --y: -132px; animation-delay: 150ms; }
+.spark-response span:nth-child(10) { --x: 14px; --y: 78px; animation-delay: 190ms; }
+.spark-response span:nth-child(11) { --x: -132px; --y: -72px; animation-delay: 210ms; }
+.spark-response span:nth-child(12) { --x: 136px; --y: -64px; animation-delay: 230ms; }
 
 .hero-copy-badge {
   position: absolute;
@@ -569,6 +809,10 @@ p {
   color: #fff;
   background: linear-gradient(135deg, #ff6f9f, #ff9b72);
   border-color: transparent;
+}
+
+.landing-screen .primary-action {
+  margin-top: 18px;
 }
 
 .hero-visual-dense {
@@ -854,6 +1098,42 @@ p {
   animation-delay: 5s;
 }
 
+.bubble-field span:nth-child(7) {
+  width: 18px;
+  height: 18px;
+  left: 8%;
+  bottom: -34px;
+  animation-delay: -4.8s;
+  animation-duration: 7.8s;
+}
+
+.bubble-field span:nth-child(8) {
+  width: 15px;
+  height: 15px;
+  left: 88%;
+  bottom: -22px;
+  animation-delay: -7.2s;
+  animation-duration: 8.8s;
+}
+
+.bubble-field span:nth-child(9) {
+  width: 28px;
+  height: 28px;
+  left: 38%;
+  bottom: -42px;
+  animation-delay: -1.8s;
+  animation-duration: 10.4s;
+}
+
+.bubble-field span:nth-child(10) {
+  width: 11px;
+  height: 11px;
+  left: 58%;
+  bottom: -28px;
+  animation-delay: -5.8s;
+  animation-duration: 7.2s;
+}
+
 .landing-copy {
   position: relative;
   z-index: 4;
@@ -967,6 +1247,15 @@ p {
   transform: rotate(12deg);
 }
 
+.quiz-splash {
+  position: absolute;
+  left: -28px;
+  top: 214px;
+  width: 170px;
+  opacity: 0.18;
+  transform: rotate(-10deg);
+}
+
 .quiz-header h2 {
   margin: 4px 0 0;
   font-size: 30px;
@@ -1015,6 +1304,80 @@ p {
   height: 48px;
   object-fit: contain;
   filter: drop-shadow(0 8px 8px rgba(255, 124, 169, 0.14));
+}
+
+.quiz-atmosphere {
+  position: relative;
+  min-height: 104px;
+  margin-top: -4px;
+  border-radius: 26px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(255, 124, 169, 0.16), transparent 28%),
+    radial-gradient(circle at 16% 86%, rgba(123, 220, 139, 0.16), transparent 30%),
+    rgba(255, 255, 255, 0.62);
+  border: 1px solid rgba(255, 124, 169, 0.14);
+  box-shadow: 0 16px 34px rgba(255, 124, 169, 0.09);
+}
+
+.quiz-atmosphere::before,
+.quiz-atmosphere::after {
+  position: absolute;
+  content: "";
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+.quiz-atmosphere::before {
+  left: -24px;
+  right: -24px;
+  bottom: 15px;
+  height: 34px;
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  border-top-color: transparent;
+  opacity: 0.7;
+  transform: rotate(-3deg);
+  animation: waterline 4s ease-in-out infinite;
+}
+
+.quiz-atmosphere::after {
+  right: 18px;
+  top: 16px;
+  width: 54px;
+  height: 54px;
+  border: 14px solid rgba(255, 255, 255, 0.46);
+  opacity: 0.74;
+  animation: ring-pulse 5s ease-in-out infinite reverse;
+}
+
+.quiz-atmosphere span {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  color: rgba(32, 23, 26, 0.74);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(255, 124, 169, 0.16);
+  font-size: 18px;
+  font-weight: 950;
+}
+
+.quiz-atmosphere i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: rgba(255, 124, 169, 0.32);
+  opacity: 0;
+  animation: quiz-pulse 520ms ease-out both;
 }
 
 .quiz-collage {
@@ -1228,6 +1591,7 @@ p {
 }
 
 .recommend-panel {
+  position: relative;
   display: grid;
   grid-template-columns: 112px 1fr;
   gap: 16px;
@@ -1238,6 +1602,21 @@ p {
   background: rgba(255, 255, 255, 0.76);
   border: 1px solid rgba(255, 124, 169, 0.16);
   box-shadow: 0 18px 42px rgba(255, 124, 169, 0.12);
+}
+
+.recommend-panel::before {
+  position: absolute;
+  content: "";
+  left: 16px;
+  right: 16px;
+  bottom: 12px;
+  height: 28px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 16% 50%, rgba(255, 255, 255, 0.82) 0 5px, transparent 6px),
+    radial-gradient(circle at 70% 48%, rgba(255, 255, 255, 0.68) 0 4px, transparent 5px),
+    linear-gradient(90deg, transparent, rgba(123, 220, 139, 0.14), transparent);
+  pointer-events: none;
 }
 
 .product-shot {
@@ -1694,6 +2073,15 @@ p {
   line-height: 1.55;
 }
 
+.prize-card.is-miss {
+  background: rgba(255, 255, 255, 0.68);
+  border-color: rgba(40, 32, 36, 0.08);
+}
+
+.prize-card.is-miss strong {
+  color: #5b4950;
+}
+
 .product-hero {
   display: grid;
   gap: 8px;
@@ -1972,6 +2360,86 @@ p {
   }
 }
 
+@keyframes water-bubble {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.72);
+  }
+  16% {
+    opacity: 0.78;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(18px, -860px, 0) scale(1.18);
+  }
+}
+
+@keyframes water-drift-a {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-17deg) scale(1);
+  }
+  50% {
+    transform: translateY(-16px) rotate(-10deg) scale(1.06);
+  }
+}
+
+@keyframes water-drift-b {
+  0%,
+  100% {
+    transform: translateY(0) rotate(18deg) scale(1);
+  }
+  50% {
+    transform: translateY(18px) rotate(10deg) scale(1.04);
+  }
+}
+
+@keyframes liquid-ring {
+  0%,
+  100% {
+    opacity: 0.48;
+    transform: translate(-50%, -50%) rotate(-8deg) scale(0.96);
+  }
+  50% {
+    opacity: 0.78;
+    transform: translate(-50%, -50%) rotate(4deg) scale(1.04);
+  }
+}
+
+@keyframes ring-pulse {
+  0%,
+  100% {
+    opacity: 0.42;
+    transform: rotate(-8deg) scale(0.94);
+  }
+  50% {
+    opacity: 0.78;
+    transform: rotate(6deg) scale(1.06);
+  }
+}
+
+@keyframes waterline {
+  0%,
+  100% {
+    opacity: 0.56;
+    transform: translateX(-6px) rotate(-1deg);
+  }
+  50% {
+    opacity: 0.9;
+    transform: translateX(6px) rotate(1deg);
+  }
+}
+
+@keyframes sound-wave {
+  0%,
+  100% {
+    transform: scaleY(0.74);
+  }
+  50% {
+    transform: scaleY(1.18);
+  }
+}
+
 @keyframes float-soft {
   0%,
   100% {
@@ -1990,6 +2458,35 @@ p {
   to {
     opacity: 1;
     transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@keyframes hero-spark {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+  18% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(var(--x) - 50%), calc(var(--y) - 50%))
+      scale(1.12);
+  }
+}
+
+@keyframes quiz-pulse {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.2);
+  }
+  28% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(12);
   }
 }
 

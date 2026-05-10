@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { productLines } from '../data/productLines';
 import type { ResultProfile } from '../data/results';
 import { assetPath } from '../utils/assets';
+import { playBubbleSound, playSplashSound } from '../utils/sound';
 
 interface ProductShowcaseProps {
   profile: ResultProfile;
@@ -14,6 +15,11 @@ export function ProductShowcase({ profile, onBack, onHome }: ProductShowcaseProp
   const activeLine =
     productLines.find((line) => line.id === activeId) ?? productLines[0];
 
+  const selectLine = (lineId: string) => {
+    setActiveId(lineId);
+    playBubbleSound();
+  };
+
   return (
     <section className="product-screen">
       <div className="product-hero">
@@ -23,7 +29,7 @@ export function ProductShowcase({ profile, onBack, onHome }: ProductShowcaseProp
           alt="元气森林"
         />
         <p className="eyebrow">你的补给货架</p>
-        <h1>从一瓶推荐，逛到完整产品线。</h1>
+        <h1>从一瓶推荐，逛到元气森林全系列。</h1>
         <p>当前推荐：{profile.drink}。继续探索不同场景下的元气补给选择。</p>
       </div>
 
@@ -33,7 +39,7 @@ export function ProductShowcase({ profile, onBack, onHome }: ProductShowcaseProp
             className={line.id === activeLine.id ? 'active' : ''}
             type="button"
             key={line.id}
-            onClick={() => setActiveId(line.id)}
+            onClick={() => selectLine(line.id)}
           >
             {line.name}
           </button>
@@ -61,7 +67,7 @@ export function ProductShowcase({ profile, onBack, onHome }: ProductShowcaseProp
             className={line.id === activeLine.id ? 'active' : ''}
             type="button"
             key={line.id}
-            onClick={() => setActiveId(line.id)}
+            onClick={() => selectLine(line.id)}
           >
             <img src={assetPath(line.image)} alt="" />
             <span>{line.name}</span>
@@ -70,10 +76,24 @@ export function ProductShowcase({ profile, onBack, onHome }: ProductShowcaseProp
       </div>
 
       <div className="button-stack">
-        <button className="primary-action" type="button" onClick={onBack}>
+        <button
+          className="primary-action"
+          type="button"
+          onClick={() => {
+            playSplashSound();
+            onBack();
+          }}
+        >
           回到抽奖
         </button>
-        <button className="ghost-action" type="button" onClick={onHome}>
+        <button
+          className="ghost-action"
+          type="button"
+          onClick={() => {
+            playBubbleSound();
+            onHome();
+          }}
+        >
           返回首页
         </button>
       </div>

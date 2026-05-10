@@ -1,37 +1,21 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { quizQuestions } from '../data/quiz';
 import type { EnergyType } from '../data/results';
 import { assetPath } from '../utils/assets';
+import { playSelectSound } from '../utils/sound';
 
 interface QuizProps {
   onComplete: (answers: EnergyType[]) => void;
 }
 
-const quizProductMap: Record<EnergyType, string> = {
-  night: 'assets/official/peach-bottle.png',
-  study: 'assets/official/lime-bottle.png',
-  sport: 'assets/official/alien-peach.png',
-  social: 'assets/official/grapefruit-bottle.png',
-};
-
-const quizNotes: Record<EnergyType, string> = {
-  night: '白桃回血',
-  study: '卡曼橘续航',
-  sport: '电解质回弹',
-  social: '荔枝冒泡',
-};
-
 export function Quiz({ onComplete }: QuizProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [answers, setAnswers] = useState<EnergyType[]>([]);
-  const [noteType, setNoteType] = useState<EnergyType>('night');
+  const [pulse, setPulse] = useState(0);
 
   const currentQuestion = quizQuestions[currentIndex];
   const progress = ((currentIndex + 1) / quizQuestions.length) * 100;
-  const spotlightType = useMemo<EnergyType>(() => {
-    return currentQuestion.options[currentIndex % currentQuestion.options.length].type;
-  }, [currentIndex, currentQuestion.options]);
 
   const handleSelect = (optionType: EnergyType, optionIndex: number) => {
     if (selectedIndex !== null) {
@@ -39,7 +23,8 @@ export function Quiz({ onComplete }: QuizProps) {
     }
 
     setSelectedIndex(optionIndex);
-    setNoteType(optionType);
+    setPulse((value) => value + 1);
+    playSelectSound();
     const nextAnswers = [...answers, optionType];
 
     window.setTimeout(() => {
@@ -64,7 +49,12 @@ export function Quiz({ onComplete }: QuizProps) {
         />
         <img
           className="quiz-side-bottle"
-          src={assetPath(quizProductMap[spotlightType])}
+          src={assetPath('assets/official/peach-bottle.png')}
+          alt=""
+        />
+        <img
+          className="quiz-splash"
+          src={assetPath('assets/official/water-splash-wide.png')}
           alt=""
         />
       </div>
@@ -89,21 +79,11 @@ export function Quiz({ onComplete }: QuizProps) {
         <span style={{ width: `${progress}%` }} />
       </div>
 
-      <div className="quiz-collage" aria-label="可点击的元气元素">
-        {(Object.keys(quizProductMap) as EnergyType[]).map((type, index) => (
-          <button
-            className={`quiz-float quiz-float-${index} ${
-              noteType === type ? 'active' : ''
-            }`}
-            type="button"
-            key={type}
-            onClick={() => setNoteType(type)}
-          >
-            <img src={assetPath(quizProductMap[type])} alt="" />
-            <span>{quizNotes[type]}</span>
-          </button>
-        ))}
-        <p>{quizNotes[noteType]}，今天先补这一口。</p>
+      <div className="quiz-atmosphere" aria-hidden="true">
+        <span>0糖</span>
+        <span>0脂</span>
+        <span>0卡</span>
+        <i key={pulse} />
       </div>
 
       <div className="question-block question-card">

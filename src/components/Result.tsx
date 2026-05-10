@@ -1,5 +1,6 @@
 import type { ResultProfile } from '../data/results';
 import { assetPath } from '../utils/assets';
+import { playBubbleSound, playSplashSound } from '../utils/sound';
 
 interface ResultProps {
   profile: ResultProfile;
@@ -51,10 +52,24 @@ export function Result({
       </div>
 
       <div className="button-stack">
-        <button className="primary-action" type="button" onClick={onCreateCard}>
+        <button
+          className="primary-action"
+          type="button"
+          onClick={() => {
+            playSplashSound();
+            onCreateCard();
+          }}
+        >
           生成元气状态卡
         </button>
-        <button className="ghost-action" type="button" onClick={onRetake}>
+        <button
+          className="ghost-action"
+          type="button"
+          onClick={() => {
+            playBubbleSound();
+            onRetake();
+          }}
+        >
           重新测试
         </button>
       </div>
